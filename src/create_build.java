@@ -33,17 +33,19 @@ public class create_build extends javax.swing.JFrame {
             
         } catch (Exception e) {}
     }
-    public create_build(String username) {
+    public create_build(int userID, int buildID) {
         initComponents();
+        this.userID = userID;
+        this.buildID = buildID;
         jPanel1.setVisible(false);
         jPanel2.setVisible(false);
         try {
             Class.forName("com.mysql.cj.jdbc.Driver"); //load the driver
             conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/pc_builder","root","Soham@12345");
-            String query = "SELECT MAX(buildID) AS build_id FROM builds where username "; 
+            //String query = "SELECT MAX(buildID) AS build_id FROM builds where username "; 
             
         } catch (Exception e) {
-            
+            e.printStackTrace();
         }
     }
     /**
@@ -55,7 +57,6 @@ public class create_build extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jButton1 = new javax.swing.JButton();
         addProcButton = new javax.swing.JButton();
         saveBuildBtn = new javax.swing.JButton();
         jTextField1 = new javax.swing.JTextField();
@@ -88,17 +89,10 @@ public class create_build extends javax.swing.JFrame {
         jTextField2 = new javax.swing.JTextField();
         jButton5 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
+        jButton9 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jButton1.setText("Return to Home");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1770, 30, -1, -1));
 
         addProcButton.setText("PROC");
         addProcButton.addActionListener(new java.awt.event.ActionListener() {
@@ -106,7 +100,7 @@ public class create_build extends javax.swing.JFrame {
                 addProcButtonActionPerformed(evt);
             }
         });
-        getContentPane().add(addProcButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 200, 70, 40));
+        getContentPane().add(addProcButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 200, 70, 40));
 
         saveBuildBtn.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         saveBuildBtn.setText("SAVE BUILD");
@@ -131,7 +125,7 @@ public class create_build extends javax.swing.JFrame {
         });
         getContentPane().add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 80, 170, 30));
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel1.setText("CUSTOMIZE YOUR PC");
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 20, -1, -1));
 
@@ -141,13 +135,18 @@ public class create_build extends javax.swing.JFrame {
                 addMoboButtonActionPerformed(evt);
             }
         });
-        getContentPane().add(addMoboButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 300, 70, 40));
+        getContentPane().add(addMoboButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 300, 70, 40));
 
         addRamButton.setText("RAM");
-        getContentPane().add(addRamButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 400, 70, 40));
+        addRamButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addRamButtonActionPerformed(evt);
+            }
+        });
+        getContentPane().add(addRamButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 400, 70, 40));
 
         addStorageButton.setText("HDD/SSD");
-        getContentPane().add(addStorageButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 640, 90, 50));
+        getContentPane().add(addStorageButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 640, 90, 50));
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel2.setText("CHOOSE PROCESSOR");
@@ -175,14 +174,14 @@ public class create_build extends javax.swing.JFrame {
                 jButton2ActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 490, -1, 40));
+        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 490, -1, 40));
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel7.setText("CHOOSE STORAGE1");
         getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 580, -1, -1));
 
         addStorageButton1.setText("HDD/SSD");
-        getContentPane().add(addStorageButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 570, 90, 50));
+        getContentPane().add(addStorageButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 570, 90, 50));
 
         jPanel2.setBackground(new java.awt.Color(153, 255, 255));
         jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -202,6 +201,11 @@ public class create_build extends javax.swing.JFrame {
         jPanel2.add(jTextField3, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 10, 220, 20));
 
         jButton7.setText("Select");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
         jPanel2.add(jButton7, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 10, -1, -1));
 
         jButton8.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -227,19 +231,31 @@ public class create_build extends javax.swing.JFrame {
                 "Name", "Price", "Socket", "Type", "Max memory", "Memory Slots", "Pci slot", "Interface", "ComponentID"
             }
         ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class
+            };
             boolean[] canEdit = new boolean [] {
                 false, false, false, false, false, false, false, false, false
             };
 
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
+            }
+        });
+        jTable2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable2MouseClicked(evt);
             }
         });
         jScrollPane1.setViewportView(jTable2);
 
         jPanel2.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, 540, 410));
 
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 70, 590, 460));
+        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 260, 590, 460));
 
         jPanel1.setBackground(new java.awt.Color(255, 102, 102));
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -402,6 +418,11 @@ public class create_build extends javax.swing.JFrame {
         });
         jPanel1.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 10, -1, -1));
 
+        jTextField2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField2ActionPerformed(evt);
+            }
+        });
         jTextField2.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 jTextField2KeyReleased(evt);
@@ -417,22 +438,20 @@ public class create_build extends javax.swing.JFrame {
         });
         jPanel1.add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 10, -1, -1));
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 60, 680, 460));
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 50, 680, 460));
         getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 200, 540, 450));
+
+        jButton9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/back.png"))); // NOI18N
+        jButton9.setText("Return to Home");
+        jButton9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton9ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton9, new org.netbeans.lib.awtextra.AbsoluteConstraints(1180, 20, -1, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-        int a;
-        a = JOptionPane.showConfirmDialog(null, "Do you want to return to Home?", "Select", JOptionPane.YES_NO_OPTION);
-         if(a==0)
-         {
-             setVisible(false);
-             new home(usern).setVisible(true);
-         }
-    }//GEN-LAST:event_jButton1ActionPerformed
 
     private void addProcButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addProcButtonActionPerformed
         // TODO add your handling code here:
@@ -452,30 +471,30 @@ public class create_build extends javax.swing.JFrame {
             }
         } 
         catch(Exception e){
-            System.out.println(e);
+            e.printStackTrace();
         }
     }//GEN-LAST:event_addProcButtonActionPerformed
 
     private void addMoboButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addMoboButtonActionPerformed
         // TODO add your handling code here:
         jPanel2.setVisible(true);
-        String query = "Select * from mobo where socket = ?";
+        String query = "Select * from motherboard where socket = ?";
         
        
-       jTable1.setVisible(true);
+       
         try{
             st = conn.prepareStatement(query);
             st.setString(1,sel_proc_socket);
             rs = st.executeQuery();
-            DefaultTableModel model = (DefaultTableModel)jTable1.getModel();
+            DefaultTableModel model = (DefaultTableModel)jTable2.getModel();
             model.setRowCount(0);
             while(rs.next())
             {
-                model.addRow(new String []{rs.getString(1), rs.getString(2), rs.getString(3),rs.getString(4),rs.getString(5),rs.getString(6),rs.getString(7),rs.getString(8)});
+                model.addRow(new String []{rs.getString(1), rs.getString(2), rs.getString(3),rs.getString(4),rs.getString(5),rs.getString(6),rs.getString(7),rs.getString(8),rs.getString(9)});
             }
         } 
         catch(Exception e){
-            
+            e.printStackTrace();
         }
     }//GEN-LAST:event_addMoboButtonActionPerformed
 
@@ -486,6 +505,16 @@ public class create_build extends javax.swing.JFrame {
     private void saveBuildBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveBuildBtnActionPerformed
         // TODO add your handling code here:
         String build_name = jTextField1.getText();
+        String queryrnm = "Update builds set build_name = ? Where buildID = ? and userID = ?";
+        try {
+           st = conn.prepareStatement(queryrnm); 
+           st.setString(1, build_name);
+           st.setInt(2, buildID);
+           st.setInt(3, userID);
+           st.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }//GEN-LAST:event_saveBuildBtnActionPerformed
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
@@ -498,13 +527,21 @@ public class create_build extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+                                        
         // TODO add your handling code here:
         int row = jTable1.getSelectedRow();
         DefaultTableModel obj1 = (DefaultTableModel)jTable1.getModel();
         sel_proc_name = obj1.getValueAt(row,0).toString();
-        sel_proc_price = (double)obj1.getValueAt(row,1);
+        //sel_proc_price = (double)obj1.getValueAt(row,1);
+        String stringValue = obj1.getValueAt(row, 1).toString();
+        sel_proc_price = Double.parseDouble(stringValue);
         sel_proc_socket = obj1.getValueAt(row,7).toString();
-        sel_proc_ID = (int) obj1.getValueAt(row,8);
+        //sel_proc_ID = (int) obj1.getValueAt(row,8);
+        stringValue = (String) obj1.getValueAt(row, 8);
+        sel_proc_ID = Integer.parseInt(stringValue);
+        
+        System.out.println(sel_proc_name+sel_proc_price+sel_proc_socket+sel_proc_ID);
+        
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
@@ -537,8 +574,65 @@ public class create_build extends javax.swing.JFrame {
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
-        String query3 = "Insert into build_components";
+        String query3 = "Insert into build_components (buildID,component_id) values (?,?)";
+        try {
+            st = conn.prepareStatement(query3);
+            st.setInt(1, buildID);
+            st.setInt(2, sel_proc_ID);
+            st.executeUpdate();
+            
+            System.out.println(buildID +" "+ sel_proc_ID);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_jTextField2ActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        // TODO add your handling code here:
+        String query4 = "Insert into build_components (buildID,component_id) values (?,?)";
+        try {
+            st = conn.prepareStatement(query4);
+            st.setInt(1, buildID);
+            st.setInt(2, sel_mobo_ID);
+            st.executeUpdate();
+            
+            //System.out.println(buildID +" "+ sel_proc_ID);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+        // TODO add your handling code here:
+        setVisible(false);
+        new home(userID).setVisible(true);
+    }//GEN-LAST:event_jButton9ActionPerformed
+
+    private void addRamButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addRamButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_addRamButtonActionPerformed
+
+    private void jTable2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable2MouseClicked
+        // TODO add your handling code here:
+        int row = jTable2.getSelectedRow();
+        DefaultTableModel obj1 = (DefaultTableModel)jTable2.getModel();
+         
+        sel_mobo_name = obj1.getValueAt(row,0).toString();
+        
+        String stringValue = obj1.getValueAt(row, 1).toString();
+        sel_mobo_price = Double.parseDouble(stringValue);
+        
+        sel_mobo_type = obj1.getValueAt(row,3).toString();
+        sel_mobo_pci = obj1.getValueAt(row,6).toString();
+        sel_mobo_inter = obj1.getValueAt(row,7).toString();
+        stringValue = obj1.getValueAt(row, 8).toString();
+        sel_mobo_ID = Integer.parseInt(stringValue);
+    }//GEN-LAST:event_jTable2MouseClicked
 
     /**
      * @param args the command line arguments
@@ -582,7 +676,6 @@ public class create_build extends javax.swing.JFrame {
     private javax.swing.JButton addRamButton;
     private javax.swing.JButton addStorageButton;
     private javax.swing.JButton addStorageButton1;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
@@ -590,6 +683,7 @@ public class create_build extends javax.swing.JFrame {
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
+    private javax.swing.JButton jButton9;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -619,5 +713,12 @@ public class create_build extends javax.swing.JFrame {
     private double sel_proc_price;
     private String sel_proc_socket;
     private int sel_proc_ID;
-    private int build_id;
+    private String sel_mobo_name;
+    private double sel_mobo_price;
+    private int sel_mobo_ID;
+    private String sel_mobo_type;
+    private String sel_mobo_pci;
+    private String sel_mobo_inter;
+    private int buildID;
+    private int userID;
 }

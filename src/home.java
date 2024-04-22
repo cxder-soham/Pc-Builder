@@ -36,6 +36,18 @@ public class home extends javax.swing.JFrame {
             //Logger.getLogger(home.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+   public home(int userID){
+       this.userID = userID;
+       initComponents();
+       try {
+            Class.forName("com.mysql.cj.jdbc.Driver"); //load the driver
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/pc_builder","root","Soham@12345");
+//           
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+   }
     public home(String username) {
         initComponents();
         usern = username;
@@ -207,9 +219,28 @@ public class home extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        String query = "Insert into";
+        String build_query = "Insert into builds (userID, build_name) values (?,?)";
+        String idquery = "Select MAX(buildID) as buildID from builds where userID = ?";
+        String buildnm = "Mybuild" + userID;
+
+        try {
+            st = conn.prepareStatement(build_query);
+            st.setInt(1, userID);
+            st.setString(2, buildnm);
+            st.executeUpdate();
+            st = conn.prepareStatement(idquery);
+            st.setInt(1, userID);
+            rs = st.executeQuery();
+            if (rs.next()){
+                buildID = rs.getInt("buildID");
+            }
+            System.out.println(buildID);
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         setVisible(false);
-        new create_build(usern).setVisible(true);
+        new create_build(userID,buildID).setVisible(true);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -221,7 +252,7 @@ public class home extends javax.swing.JFrame {
         jTable2.setVisible(true);
          try{
             st = conn.prepareStatement(query);
-            st.setString(1, "2");
+            st.setInt(1, userID);
             rs = st.executeQuery();
             DefaultTableModel model = (DefaultTableModel)jTable2.getModel();
             model.setRowCount(0);
@@ -232,7 +263,7 @@ public class home extends javax.swing.JFrame {
          }
          catch(Exception e)
          {
-             System.out.print(e);
+             e.printStackTrace();
          }
         
     }//GEN-LAST:event_jButton3ActionPerformed
@@ -335,4 +366,5 @@ public class home extends javax.swing.JFrame {
     //private javax.swing.JTable jTable1;
     private String usern;
     private int userID;
+    private int buildID;
 }

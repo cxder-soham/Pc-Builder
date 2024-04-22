@@ -156,6 +156,7 @@ public class Login extends javax.swing.JFrame {
             pst.setString(1, username);
             pst.setString(2, password);
             rs = pst.executeQuery();
+            
             //DefaultTableModel model = (DefaultTableModel)jTable2.getModel();
             //model.setRowCount(0);
             if(rs.next())
