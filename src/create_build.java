@@ -574,11 +574,13 @@ public class create_build extends javax.swing.JFrame {
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
-        String query3 = "Insert into build_components (buildID,component_id) values (?,?)";
+        String query3 = "Insert into build_components (buildID,component_id,name,price) values (?,?,?,?)";
         try {
             st = conn.prepareStatement(query3);
             st.setInt(1, buildID);
             st.setInt(2, sel_proc_ID);
+            st.setString(3,sel_proc_name);
+            st.setDouble(4, sel_proc_price);
             st.executeUpdate();
             
             System.out.println(buildID +" "+ sel_proc_ID);
@@ -594,14 +596,16 @@ public class create_build extends javax.swing.JFrame {
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         // TODO add your handling code here:
-        String query4 = "Insert into build_components (buildID,component_id) values (?,?)";
+        String query4 = "Insert into build_components (buildID,component_id,name,price) values (?,?,?,?)";
         try {
             st = conn.prepareStatement(query4);
             st.setInt(1, buildID);
             st.setInt(2, sel_mobo_ID);
+            st.setString(3,sel_mobo_name);
+            st.setDouble(4, sel_mobo_price);
             st.executeUpdate();
             
-            //System.out.println(buildID +" "+ sel_proc_ID);
+            System.out.println(buildID +" "+ sel_mobo_ID);
         } catch (Exception e) {
             e.printStackTrace();
         }
