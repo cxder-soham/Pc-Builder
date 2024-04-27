@@ -28,9 +28,10 @@ public class cart extends javax.swing.JFrame {
             
         } catch (Exception e) {}
     }
-    public cart(int buildID) {
+    public cart(int buildID, int userID) {
         initComponents();
         this.buildID = buildID;
+        this.userID = userID;
         String query = "SELECT * FROM build_components WHERE buildID = (SELECT MAX(buildID) FROM build_components)";
         String query1 = "SELECT SUM(price) AS total_price FROM build_components WHERE buildID = (SELECT MAX(buildID) FROM build_components)";
         double price;
@@ -151,7 +152,7 @@ public class cart extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         setVisible(false);
-        new home(buildID).setVisible(true);
+        new home(buildID,userID).setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
@@ -205,4 +206,5 @@ public class cart extends javax.swing.JFrame {
     private Connection conn;
     private ResultSet rs;
     private int buildID;
+    private int userID;
 }
